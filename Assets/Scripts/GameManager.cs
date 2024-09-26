@@ -77,7 +77,8 @@ public class GameManager : MonoBehaviour
         wordListText.text = ""; // Clear the text
         foreach (string word in currentRound)
         {
-            wordListText.text += word.ToUpper() + "\n";
+            wordListText.text += word.ToUpper() + ", ";
+            
         }
     }
 }
