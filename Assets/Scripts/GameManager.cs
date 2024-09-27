@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI wordListText; 
     public int gridSize = 20;
     public Sprite picnicBG;
+    public Sprite cityBG;
+    public Sprite gamesBG;
     public Image background;
 
     public List<string> picnic =
@@ -64,8 +66,21 @@ public class GameManager : MonoBehaviour
 
     public void PickNewTheme()
     {
+        int themeSelect = Random.Range(0, themes.Count);
+        currentTheme = themes[themeSelect];
 
-        currentTheme = themes[Random.Range(0, themes.Count)];
+        if(themeSelect== 0)
+        {
+            background.sprite = picnicBG;
+
+        } else if(themeSelect== 1)
+        {
+            background.sprite = cityBG;
+        } else
+        {
+            background.sprite = gamesBG;
+        }
+
         int numberOfWordsToPick = difficulty + 2;
 
         // Shuffle the original list
