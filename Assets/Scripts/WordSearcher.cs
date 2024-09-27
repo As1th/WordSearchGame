@@ -80,7 +80,7 @@ public class WordSearcher : MonoBehaviour
 
     bool IsWordInList(string word)
     {
-        return gameManager.currentTheme.words.Contains(word); // Assuming GameManager holds the current theme and its words
+        return gameManager.currentTheme.Contains(word); // Assuming GameManager holds the current theme and its words
     }
 
     void HighlightWord(List<GameObject> letters)

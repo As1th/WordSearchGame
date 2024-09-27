@@ -13,6 +13,11 @@ public class GridGenerator : MonoBehaviour
     public WordSearcher wordSearcher;
     public void GenerateGrid(List<string> words)
     {
+        foreach (Transform child in gridParent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         letterGrid = new char[gridSize, gridSize];
 
         // Initialize grid with random letters (fill grid)
@@ -56,7 +61,7 @@ public class GridGenerator : MonoBehaviour
                 Vector3 position = new Vector3(i * cellSize, -j * cellSize, 0);  // Grid positioning
                 letterObj.transform.localPosition = position;
                 // Add the letter's position to the dictionary
-               wordSearcher.letterGridPositions.Add(letterObj, new Vector2Int(i, j));
+                wordSearcher.letterGridPositions.Add(letterObj, new Vector2Int(i, j));
             }
         }
     }
@@ -152,19 +157,19 @@ public class GridGenerator : MonoBehaviour
                         letterGrid[row, col] = word[i];
 
 
-                       /* //DEBUG: CREATE ADDITIONAL RED LETTERS
-                        // Color the placed word red
-                        GameObject letterObj = Instantiate(letterPrefab, gridParent);
-                        letterObj.GetComponent<TextMeshProUGUI>().text = word[i].ToString();
+                        /* //DEBUG: CREATE ADDITIONAL RED LETTERS
+                         // Color the placed word red
+                         GameObject letterObj = Instantiate(letterPrefab, gridParent);
+                         letterObj.GetComponent<TextMeshProUGUI>().text = word[i].ToString();
 
-                        // Set the letter to red if it's part of the word
-                        letterObj.GetComponent<TextMeshProUGUI>().color = Color.red;
+                         // Set the letter to red if it's part of the word
+                         letterObj.GetComponent<TextMeshProUGUI>().color = Color.red;
 
-                        // Position the letter in the grid
-                        Vector3 position = new Vector3(row * cellSize, -col * cellSize, 0);
-                        letterObj.transform.localPosition = position;
-                        //END DEBUG*/
-                        
+                         // Position the letter in the grid
+                         Vector3 position = new Vector3(row * cellSize, -col * cellSize, 0);
+                         letterObj.transform.localPosition = position;
+                         //END DEBUG*/
+
                     }
 
                     wordPlaced = true; // Mark word as placed

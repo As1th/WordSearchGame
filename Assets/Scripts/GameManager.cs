@@ -1,84 +1,100 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-
-public class Theme
-{
-    public string name;
-    public List<string> words;
-
-    public Theme(string name, List<string> words)
-    {
-        this.name = name;
-        this.words = words;
-    }
-}
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
 
     public GridGenerator gridGen;
-    public List<Theme> themes=null;
-    public Theme currentTheme;
-    public TextMeshProUGUI wordListText; // Link to the UI element displaying words
-    public int gridSize = 20; // Example grid size, could be dynamic
+    public List<List<string>> themes = new List<List<string>> { };
+    public List<string> currentTheme;
+    public int difficulty = 1;
+    public TextMeshProUGUI wordListText; 
+    public int gridSize = 20;
+    public Sprite picnicBG;
+    public Image background;
 
-   public Theme picnic = new Theme("Picnic",
-           new List<string> {
+    public List<string> picnic =
+            new List<string> {
                 "food", "ants", "milk", "jam", "cake", "corn", "soda", "buns", "nap", "fork",
                 "dish", "pie", "cook", "park", "sun", "wine", "chips", "cup", "rug", "tent",
                 "seat", "grass", "tree", "plum", "rain", "pack", "bag", "ice", "grill", "mayo",
                 "snack", "egg", "ham", "soup", "fire", "tent", "camp", "fly", "hive", "cold",
                 "warm", "wind", "sand", "hat", "roll", "hike", "lake", "boat", "bug", "fun"
-               }
-           );
+                };
 
-    public Theme city = new Theme("City",
+
+    public List<string> city =
        new List<string> {
                  "bus", "cab", "map", "road", "sign", "shop", "park", "mall", "cafe", "rush",
                 "bank", "club", "taxi", "bike", "lane", "grid", "loud", "gate", "walk", "flat",
                 "stop", "post", "tram", "view", "dome", "grid", "work", "exit", "tour", "film",
                 "bar", "gym", "coin", "cash", "metro", "fare", "zone", "step", "flag", "fast",
                 "mall", "ride", "port", "rent", "lane", "news", "rail", "bus", "rush"
-            }
-       );
+            };
 
-    public Theme games = new Theme("Games",
+
+    public List<string> games =
        new List<string> {
                 "card", "move", "race", "dice", "goal", "jump", "ball", "pawn", "club", "roll",
                 "grid", "shot", "play", "life", "quiz", "coin", "king", "quiz", "dice", "dart",
                 "draw", "hand", "pool", "pong", "deck", "team", "ball", "wave", "fire", "pass",
                 "roll", "maze", "duel", "bet", "cash", "cast", "luck", "word", "spin", "jump",
                 "flip", "chip", "boom", "dart", "solo", "free", "slot", "time", "clap", "tap"
-            }
-       );
+            };
+
     public List<string> currentRound = new List<string>();
 
     void Start()
     {
+        themes.Add(picnic); themes.Add(city); themes.Add(games);
 
 
-         currentRound = new List<string> {
-                "card", "move", "race", "dice", "goal"
-            };
+
+        PickNewTheme();
 
 
-        print(themes);
-        // Select a theme (this could be randomized or chosen by the player)
-        currentTheme = games;
+
+
+    }
+
+    public void PickNewTheme()
+    {
+
+        currentTheme = themes[Random.Range(0, themes.Count)];
+        int numberOfWordsToPick = difficulty + 2;
+
+        // Shuffle the original list
+        currentRound = currentTheme.OrderBy(a => Random.value).ToList();
+
+        // Take 'count' number of words from the shuffled list
+        currentRound = currentRound.Take(numberOfWordsToPick).ToList();
+
+
+
         DisplayWordList();
         gridGen.GenerateGrid(currentRound);
+    }
+
+    public void SetDifficulty(int diff)
+    {
+        difficulty = diff;
+        PickNewTheme();
+
     }
 
     void DisplayWordList()
     {
         wordListText.text = ""; // Clear the text
+
         foreach (string word in currentRound)
         {
             wordListText.text += word.ToUpper() + ", ";
-            
+
         }
     }
 }
