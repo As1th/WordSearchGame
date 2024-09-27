@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class GridGenerator : MonoBehaviour
 {
-    public int gridSize = 10; // Define your grid size
-    public GameObject letterPrefab; // The letter GameObject prefab (with TextMeshPro)
-    public Transform gridParent; // Parent to contain the letter objects
-    public float cellSize = 30f; // The size of each cell in the grid
+    public int gridSize = 6; 
+    public GameObject letterPrefab; 
+    public Transform gridParent;
+    public float cellSize = 110f;
+    public float fontSize = 60;
+    public float size = 80;
+ 
     private char[,] letterGrid;
     public WordSearcher wordSearcher;
     public void GenerateGrid(List<string> words)
@@ -56,6 +59,11 @@ public class GridGenerator : MonoBehaviour
 
                 // Set the text of the letter
                 letterObj.GetComponent<TextMeshProUGUI>().text = letterGrid[i, j].ToString();
+
+
+                
+                letterObj.GetComponent<TextMeshProUGUI>().fontSize = fontSize;
+                letterObj.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
 
                 // Position the letter in the grid
                 Vector3 position = new Vector3(i * cellSize, -j * cellSize, 0);  // Grid positioning

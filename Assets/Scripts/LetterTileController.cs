@@ -3,9 +3,8 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using Unity.VisualScripting.Antlr3.Runtime;
 
-public class LetterTileController : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class LetterTileController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public static List<LetterTileController> selectedTiles = new List<LetterTileController>();
     private bool isDragging = false;
@@ -14,67 +13,76 @@ public class LetterTileController : MonoBehaviour, IPointerClickHandler, IPointe
     public string selectedWord;
     private GraphicRaycaster graphicRaycaster;
     private EventSystem eventSystem;
+    public GameManager gm;
     public int selectedCount = 0; // Counter for selected tiles
+
     void Start()
     {
-        // Get the GraphicRaycaster and EventSystem components
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
         eventSystem = EventSystem.current;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        // Handle single click
-        SelectTile();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         isDragging = true;
-        selectedCount = 0; // Counter for selected tiles = 1;
-        startDragPosition = Input.mousePosition; // Store the start position
-        SelectTile(); // Also select the initial tile on pointer down
+        selectedCount = 0; // Reset the selected tile count
+        startDragPosition = Input.touchCount > 0 ? Input.GetTouch(0).position : Vector2.zero; // Store start position from touch input
+        SelectTile(); // Select the initial tile on pointer down
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;
         selectedWord = "";
-        // Optional: Keep selected letters or clear
-        // selectedTiles.Clear(); // Uncomment this if you want to clear on release
+
+        bool check = gm.checkWord();
+        if (check)
+        {
+            // Handle word found logic
+        }
+        else
+        {
+            // Deselect and reset tiles if the word is incorrect
+            foreach (LetterTileController letter in selectedTiles)
+            {
+                letter.GetComponent<TextMeshProUGUI>().color = Color.white;
+            }
+            selectedTiles.Clear();
+        }
     }
 
     private void Update()
     {
-        if (isDragging && Input.GetMouseButton(0))
+        if (isDragging && Input.touchCount > 0) // Check if dragging and touch is active
         {
-            endDragPosition = Input.mousePosition;
-
-            // Use PointerEventData to raycast and select tiles
-            PointerEventData pointerData = new PointerEventData(eventSystem)
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
             {
-                position = endDragPosition
-            };
+                endDragPosition = touch.position;
 
-            List<RaycastResult> results = new List<RaycastResult>();
-            graphicRaycaster.Raycast(pointerData, results);
+                // Use PointerEventData to raycast and select tiles
+                PointerEventData pointerData = new PointerEventData(eventSystem)
+                {
+                    position = endDragPosition
+                };
 
-            // Select tiles based on the drag
-            SelectTiles(results);
+                List<RaycastResult> results = new List<RaycastResult>();
+                graphicRaycaster.Raycast(pointerData, results);
 
+                // Select tiles based on the drag
+                SelectTiles(results);
+            }
         }
     }
 
     private void SelectTiles(List<RaycastResult> results)
     {
-
-
         foreach (var result in results)
         {
             LetterTileController tile = result.gameObject.GetComponent<LetterTileController>();
             if (tile != null && !selectedTiles.Contains(tile))
             {
-                // Select the tile and increase the count
                 tile.SelectTile();
                 selectedCount++;
 
@@ -82,12 +90,14 @@ public class LetterTileController : MonoBehaviour, IPointerClickHandler, IPointe
                 selectedTiles.Add(tile);
 
                 selectedWord += tile.gameObject.GetComponent<TextMeshProUGUI>().text;
-                print(selectedWord);
-                // Check if the selected count has reached the limit
+                gm.selectedWord = selectedWord;
+                gm.selectedWordDisplay.text = selectedWord;
+
+                // Limit the selection to a certain count
                 if (selectedCount >= 4)
                 {
                     isDragging = false;
-                    break; // Stop selecting tiles if limit reached
+                    break;
                 }
             }
         }
@@ -98,11 +108,10 @@ public class LetterTileController : MonoBehaviour, IPointerClickHandler, IPointe
         if (!selectedTiles.Contains(this))
         {
             selectedTiles.Add(this);
-            // Highlight the selected tile (you can change color or material)
-            GetComponent<TextMeshProUGUI>().color = Color.yellow; // Example highlight color
+            GetComponent<TextMeshProUGUI>().color = Color.yellow; // Highlight selected tile
             selectedWord += this.gameObject.GetComponent<TextMeshProUGUI>().text;
-
-
+            gm.selectedWord = selectedWord;
+            gm.selectedWordDisplay.text = selectedWord;
         }
     }
 }

@@ -13,8 +13,9 @@ public class GameManager : MonoBehaviour
     public List<List<string>> themes = new List<List<string>> { };
     public List<string> currentTheme;
     public int difficulty = 1;
-    public TextMeshProUGUI wordListText; 
-    public int gridSize = 20;
+    public TextMeshProUGUI wordListText;
+    public string selectedWord;
+    public TextMeshProUGUI selectedWordDisplay;
     public Sprite picnicBG;
     public Sprite cityBG;
     public Sprite gamesBG;
@@ -64,6 +65,23 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public bool checkWord()
+    {
+        if (currentRound.Contains(selectedWord.ToLower()))
+        {
+            print("y");
+            return true;
+
+        }
+        else
+        {
+
+            print("n");
+            return false;
+        }
+
+    }
+
     public void PickNewTheme()
     {
         int themeSelect = Random.Range(0, themes.Count);
@@ -98,6 +116,28 @@ public class GameManager : MonoBehaviour
     public void SetDifficulty(int diff)
     {
         difficulty = diff;
+        switch (difficulty)
+        {
+            case 1:
+                gridGen.gridSize = 6;
+                gridGen.cellSize = 110;
+                gridGen.fontSize = 60;
+                gridGen.size = 105;
+                break;
+            case 2:
+                gridGen.gridSize = 8;
+                gridGen.cellSize = 80;
+                gridGen.fontSize = 50;
+                gridGen.size = 82;
+                break;
+            case 3:
+                gridGen.gridSize = 10;
+                gridGen.cellSize = 60;
+                gridGen.fontSize = 40;
+                gridGen.size = 60;
+                break;
+
+        }
         PickNewTheme();
 
     }
