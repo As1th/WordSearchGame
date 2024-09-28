@@ -1364,6 +1364,7 @@ RectTransform:
   - {fileID: 1447651330}
   - {fileID: 14709160}
   - {fileID: 1478715148}
+  - {fileID: 2127443243}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1731,6 +1732,7 @@ GameObject:
   - component: {fileID: 2127443242}
   - component: {fileID: 2127443241}
   - component: {fileID: 2127443244}
+  - component: {fileID: 2127443245}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1779,6 +1781,7 @@ MonoBehaviour:
   cityBG: {fileID: 21300000, guid: 5406e64be42dafa4a80c23649e9d1299, type: 3}
   gamesBG: {fileID: 21300000, guid: 6c621d0be7636f44fa61043a74fee499, type: 3}
   background: {fileID: 1197536213}
+  isDragging: 0
   picnic:
   - food
   - ants
@@ -1940,12 +1943,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127443240}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 199.82684, y: 462.29108, z: 528.99414}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 102.50463, y: 351.50903, z: 1237.2406}
+  m_LocalScale: {x: 2.338855, y: 2.338855, z: 2.338855}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1594417344}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2127443244
 MonoBehaviour:
@@ -1960,6 +1963,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
+--- !u!114 &2127443245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127443240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcabd4226de143449917de2ec2d64935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedWord: 
+  gm: {fileID: 2127443242}
 --- !u!1 &2143856063
 GameObject:
   m_ObjectHideFlags: 0
@@ -2100,4 +2117,3 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 1594417344}
   - {fileID: 1348528369}
-  - {fileID: 2127443243}

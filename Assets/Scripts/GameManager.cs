@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public Sprite gamesBG;
     int themeSelect = 1;
     public Image background;
+    public bool isDragging;
 
     public List<string> picnic =
             new List<string> {
