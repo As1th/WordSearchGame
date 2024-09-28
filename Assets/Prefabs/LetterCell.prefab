@@ -147,8 +147,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc1c7e12d4607aa48a305ccc0be415b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedTiles: []
   selectedWord: 
+  manager: {fileID: 0}
   gm: {fileID: 0}
+  input: {fileID: 0}
   selectedCount: 0
 --- !u!1 &4268561168967778710
 GameObject:
