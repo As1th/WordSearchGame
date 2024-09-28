@@ -18,6 +18,9 @@ public class InputManager : MonoBehaviour
     public string selectedWord = ""; // Now part of the InputManager
     private const int maxTilesInDrag = 5; // Set maximum drag length to 5 tiles
     public GameManager gm;
+
+    public  List<LetterTileController> currentlySelectedTiles = new List<LetterTileController>(); // Track tiles in the current drag
+
     private void Awake()
     {
         if (Instance == null)
@@ -55,6 +58,7 @@ public class InputManager : MonoBehaviour
                     activeTouchID = touch.fingerId;
                     isDragging = true;
                     selectedWord = ""; // Reset the selected word at the start of dragging
+                    currentlySelectedTiles.Clear(); // Clear the currently selected tiles
                     startDragPosition = touch.position;
                     NotifyTileOfStartDrag(startDragPosition);
                 }
@@ -69,6 +73,15 @@ public class InputManager : MonoBehaviour
                 {
                     isDragging = false;
                     activeTouchID = -1;
+                    bool check = gm.checkWord();
+                    if (check)
+                    {
+                        gm.correctGuesses++;
+                        if(gm.correctGuesses == gm.difficulty+2)
+                        {
+                            gm.NudgeNewRound();
+                        }
+                    }
                     NotifyTileOfEndDrag(endDragPosition);
                 }
             }
@@ -80,18 +93,21 @@ public class InputManager : MonoBehaviour
         List<RaycastResult> results = PerformUIRaycast(startPosition);
         if (results.Count > 0)
         {
-            LetterTileController tile = results[0].gameObject.GetComponent<LetterTileController>();
-            if (tile != null)
+            if (results[0].gameObject != null)
             {
-                tile.OnDragStart();
-                AppendToSelectedWord(tile); // Add the letter to selectedWord on drag start
+                LetterTileController tile = results[0].gameObject.GetComponent<LetterTileController>();
+                if (tile != null)
+                {
+                    tile.OnDragStart();
+                    AppendToSelectedWord(tile); // Add the letter to selectedWord on drag start
+                }
             }
         }
     }
 
     public void NotifyTileOfDrag(Vector2 dragPosition)
     {
-        if (LetterTileController.selectedTiles.Count >= maxTilesInDrag)
+        if (currentlySelectedTiles.Count >= maxTilesInDrag)
         {
             // Stop the drag if the max limit of tiles is reached
             return;
@@ -100,26 +116,27 @@ public class InputManager : MonoBehaviour
         List<RaycastResult> results = PerformUIRaycast(dragPosition);
         if (results.Count > 0)
         {
-            LetterTileController tile = results[0].gameObject.GetComponent<LetterTileController>();
-            if (tile != null && !LetterTileController.selectedTiles.Contains(tile))
+            if (results[0].gameObject != null)
             {
-                tile.OnDrag();
-                AppendToSelectedWord(tile); // Add the letter to selectedWord while dragging
+                LetterTileController tile = results[0].gameObject.GetComponent<LetterTileController>();
+                if (tile != null && !currentlySelectedTiles.Contains(tile)) // Check against the current selection
+                {
+                    tile.OnDrag();
+                    AppendToSelectedWord(tile); // Add the letter to selectedWord while dragging
+                }
             }
         }
     }
 
     public void NotifyTileOfEndDrag(Vector2 endPosition)
     {
-        List<RaycastResult> results = PerformUIRaycast(endPosition);
-        if (results.Count > 0)
+        foreach (var tile in currentlySelectedTiles)
         {
-            LetterTileController tile = results[0].gameObject.GetComponent<LetterTileController>();
-            if (tile != null)
-            {
-                tile.OnDragEnd();
-            }
+            tile.OnDragEnd(); // Call OnDragEnd for each selected tile
         }
+
+        // Clear the currently selected tiles
+        currentlySelectedTiles.Clear();
     }
 
     private List<RaycastResult> PerformUIRaycast(Vector2 screenPosition)
@@ -143,6 +160,7 @@ public class InputManager : MonoBehaviour
 
     private void AppendToSelectedWord(LetterTileController tile)
     {
+        currentlySelectedTiles.Add(tile); // Track the tile for the current drag
         selectedWord += tile.gameObject.GetComponent<TextMeshProUGUI>().text; // Append the letter
         gm.selectedWordDisplay.text = selectedWord;
         gm.selectedWord = selectedWord;

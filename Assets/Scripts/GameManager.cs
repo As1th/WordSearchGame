@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     int themeSelect = 1;
     public Image background;
     public bool isDragging;
+    public List<Color> selectedColors = new List<Color>();
+    public int correctGuesses = 0;
 
     public List<string> picnic =
             new List<string> {
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
         if (currentRound.Contains(selectedWord.ToLower()))
         {
             print("y");
+            
             return true;
 
         }
@@ -84,8 +87,14 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void NudgeNewRound()
+    {
+        print("te");
+    }
+
     public void PickNewTheme()
     {
+        correctGuesses = 0;
         if(themeSelect == 2)
         {
             themeSelect = 0;

@@ -1782,6 +1782,13 @@ MonoBehaviour:
   gamesBG: {fileID: 21300000, guid: 6c621d0be7636f44fa61043a74fee499, type: 3}
   background: {fileID: 1197536213}
   isDragging: 0
+  selectedColors:
+  - {r: 0.47831705, g: 1, b: 0.4764151, a: 1}
+  - {r: 1, g: 0.5424528, b: 0.813729, a: 1}
+  - {r: 0.9169874, g: 1, b: 0.4235294, a: 1}
+  - {r: 1, g: 0.71961844, b: 0.3443396, a: 1}
+  - {r: 1, g: 0.2688679, b: 0.2688679, a: 1}
+  correctGuesses: 0
   picnic:
   - food
   - ants
