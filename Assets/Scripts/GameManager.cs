@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Sprite picnicBG;
     public Sprite cityBG;
     public Sprite gamesBG;
+    int themeSelect = 1;
     public Image background;
 
     public List<string> picnic =
@@ -84,7 +85,13 @@ public class GameManager : MonoBehaviour
 
     public void PickNewTheme()
     {
-        int themeSelect = Random.Range(0, themes.Count);
+        if(themeSelect == 2)
+        {
+            themeSelect = 0;
+        } else
+        {
+            themeSelect++;
+        }
         currentTheme = themes[themeSelect];
 
         if(themeSelect== 0)
@@ -119,22 +126,22 @@ public class GameManager : MonoBehaviour
         switch (difficulty)
         {
             case 1:
-                gridGen.gridSize = 6;
-                gridGen.cellSize = 110;
+                gridGen.gridSize = 5;
+                gridGen.cellSize = 145;
                 gridGen.fontSize = 60;
-                gridGen.size = 105;
+                gridGen.size = 90;
                 break;
             case 2:
-                gridGen.gridSize = 8;
-                gridGen.cellSize = 80;
+                gridGen.gridSize = 7;
+                gridGen.cellSize = 95;
                 gridGen.fontSize = 50;
-                gridGen.size = 82;
+                gridGen.size = 68;
                 break;
             case 3:
-                gridGen.gridSize = 10;
-                gridGen.cellSize = 60;
-                gridGen.fontSize = 40;
-                gridGen.size = 60;
+                gridGen.gridSize = 8;
+                gridGen.cellSize = 85;
+                gridGen.fontSize = 50;
+                gridGen.size = 53;
                 break;
 
         }

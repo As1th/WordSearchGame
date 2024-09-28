@@ -10,7 +10,7 @@ public class GridGenerator : MonoBehaviour
     public Transform gridParent;
     public float cellSize = 110f;
     public float fontSize = 60;
-    public float size = 80;
+    public float size = 90;
  
     private char[,] letterGrid;
     public WordSearcher wordSearcher;
@@ -58,12 +58,12 @@ public class GridGenerator : MonoBehaviour
                 GameObject letterObj = Instantiate(letterPrefab, gridParent);
 
                 // Set the text of the letter
-                letterObj.GetComponent<TextMeshProUGUI>().text = letterGrid[i, j].ToString();
+                letterObj.GetComponentInChildren<TextMeshProUGUI>().text = letterGrid[i, j].ToString();
 
 
                 
-                letterObj.GetComponent<TextMeshProUGUI>().fontSize = fontSize;
-                letterObj.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
+                letterObj.GetComponentInChildren<TextMeshProUGUI>().fontSize = fontSize;
+                letterObj.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(size, size);
 
                 // Position the letter in the grid
                 Vector3 position = new Vector3(i * cellSize, -j * cellSize, 0);  // Grid positioning

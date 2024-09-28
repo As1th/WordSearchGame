@@ -109,6 +109,7 @@ public class LetterTileController : MonoBehaviour, IPointerDownHandler, IPointer
         {
             selectedTiles.Add(this);
             GetComponent<TextMeshProUGUI>().color = Color.yellow; // Highlight selected tile
+            transform.parent.GetComponent<Image>().color = Color.green;
             selectedWord += this.gameObject.GetComponent<TextMeshProUGUI>().text;
             gm.selectedWord = selectedWord;
             gm.selectedWordDisplay.text = selectedWord;
