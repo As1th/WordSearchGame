@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public bool isDragging;
     public List<Color> selectedColors = new List<Color>();
     public int correctGuesses = 0;
+    public Animator nextThemeButton;
 
     public List<string> picnic =
             new List<string> {
@@ -89,7 +90,7 @@ public class GameManager : MonoBehaviour
 
     public void NudgeNewRound()
     {
-        print("te");
+        nextThemeButton.SetTrigger("Grow");
     }
 
     public void PickNewTheme()
