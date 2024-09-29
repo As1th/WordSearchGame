@@ -1094,8 +1094,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 04f2ca67728fa0140893f38c665eeb97, type: 2}
-  m_sharedMaterial: {fileID: -4027260284370982373, guid: 04f2ca67728fa0140893f38c665eeb97, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1492,7 +1492,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'TEST KING TEST TEST TEST
 
-'
+    kkking'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 66cb2826258f84147ae1fc55dcf9fae9, type: 2}
   m_sharedMaterial: {fileID: -4027260284370982373, guid: 66cb2826258f84147ae1fc55dcf9fae9, type: 2}
@@ -1787,6 +1787,7 @@ MonoBehaviour:
   - {r: 1, g: 0.5424528, b: 0.813729, a: 1}
   - {r: 0.9169874, g: 1, b: 0.4235294, a: 1}
   - {r: 1, g: 0.71961844, b: 0.3443396, a: 1}
+  - {r: 0.5424528, g: 0.9669981, b: 1, a: 1}
   - {r: 1, g: 0.2688679, b: 0.2688679, a: 1}
   correctGuesses: 0
   picnic:

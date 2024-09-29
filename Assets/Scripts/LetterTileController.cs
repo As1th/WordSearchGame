@@ -66,7 +66,7 @@ public class LetterTileController : MonoBehaviour
             isSelected = false; // Reset selection
             if (!saveColor)
             {
-                transform.parent.GetComponent<Image>().color = Color.cyan; // Reset to original color
+                transform.parent.GetComponent<Image>().color = Color.grey; // Reset to original color
             }
         }
     }
