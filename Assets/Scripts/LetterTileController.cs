@@ -13,13 +13,14 @@ public class LetterTileController : MonoBehaviour
     public InputManager input;
     private bool saveColor;
     public int selectedCount = 0; // Counter for selected tiles
-    
+    private Animator animator;
 
     private void Start()
     {
         manager = GameObject.Find("GameManager");
         gm = manager.GetComponent<GameManager>();
         input = manager.GetComponent<InputManager>();
+        animator = transform.parent.gameObject.GetComponent<Animator>();
     }
 
     public void OnDragStart()
@@ -45,8 +46,10 @@ public class LetterTileController : MonoBehaviour
         bool check = gm.checkWord();
         if (check)
         {
+            
+            animator.SetTrigger("Spin");
             saveColor = true;
-            // Handle word found logic
+            animator.SetBool("isDragging", false);
         }
         else
         {
@@ -64,6 +67,7 @@ public class LetterTileController : MonoBehaviour
         {
             selectedTiles.Remove(this);
             isSelected = false; // Reset selection
+            animator.SetBool("isDragging", false);
             if (!saveColor)
             {
                 transform.parent.GetComponent<Image>().color = Color.grey; // Reset to original color
@@ -75,6 +79,7 @@ public class LetterTileController : MonoBehaviour
         if (!selectedTiles.Contains(this))
         {
             selectedTiles.Add(this);
+            animator.SetBool("isDragging", true);
             isSelected = true;
             if (!saveColor)
             {

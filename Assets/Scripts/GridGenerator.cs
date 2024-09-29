@@ -68,10 +68,11 @@ public class GridGenerator : MonoBehaviour
                 // Position the letter in the grid
                 Vector3 position = new Vector3(i * cellSize, -j * cellSize, 0);  // Grid positioning
                 letterObj.transform.localPosition = position;
-                // Add the letter's position to the dictionary
-                wordSearcher.letterGridPositions.Add(letterObj, new Vector2Int(i, j));
+                letterObj.GetComponent<Animator>().enabled = true;
             }
         }
+
+       
     }
     void PlaceWordInGrid(string word)
     {
