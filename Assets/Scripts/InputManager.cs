@@ -11,10 +11,10 @@ public class InputManager : MonoBehaviour
     private int activeTouchID = -1;
     private Vector2 startDragPosition;
     private Vector2 endDragPosition;
-
+    public AudioSource selectSound;
     private GraphicRaycaster graphicRaycaster;
     private EventSystem eventSystem;
-
+    bool tempCheck;
     public string selectedWord = ""; // Now part of the InputManager
     private const int maxTilesInDrag = 5; // Set maximum drag length to 5 tiles
     public GameManager gm;
@@ -76,13 +76,17 @@ public class InputManager : MonoBehaviour
                     bool check = gm.checkWord();
                     if (check)
                     {
+                        tempCheck = true;
                         gm.correctGuesses++;
                         if(gm.correctGuesses == gm.difficulty+2)
                         {
                             gm.NudgeNewRound();
                         }
+                    } else
+                    {
+                        tempCheck=false;
                     }
-                    NotifyTileOfEndDrag(endDragPosition);
+                    NotifyTileOfEndDrag(tempCheck);
                 }
             }
         }
@@ -99,6 +103,7 @@ public class InputManager : MonoBehaviour
                 if (tile != null)
                 {
                     tile.OnDragStart();
+                    selectSound.Play();
                     AppendToSelectedWord(tile); // Add the letter to selectedWord on drag start
                 }
             }
@@ -122,17 +127,18 @@ public class InputManager : MonoBehaviour
                 if (tile != null && !currentlySelectedTiles.Contains(tile)) // Check against the current selection
                 {
                     tile.OnDrag();
+                    selectSound.Play();
                     AppendToSelectedWord(tile); // Add the letter to selectedWord while dragging
                 }
             }
         }
     }
 
-    public void NotifyTileOfEndDrag(Vector2 endPosition)
+    public void NotifyTileOfEndDrag(bool check)
     {
         foreach (var tile in currentlySelectedTiles)
         {
-            tile.OnDragEnd(); // Call OnDragEnd for each selected tile
+            tile.OnDragEnd(check); // Call OnDragEnd for each selected tile
         }
 
         // Clear the currently selected tiles

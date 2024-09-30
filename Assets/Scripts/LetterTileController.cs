@@ -39,11 +39,11 @@ public class LetterTileController : MonoBehaviour
         }
     }
 
-    public void OnDragEnd()
+    public void OnDragEnd(bool check)
     {
         selectedWord = "";
 
-        bool check = gm.checkWord();
+        
         if (check)
         {
             

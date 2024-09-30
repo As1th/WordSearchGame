@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GridGenerator gridGen;
     public List<List<string>> themes = new List<List<string>> { };
     public List<string> currentTheme;
-    public int difficulty = 1;
+    public int difficulty = 2;
     public TextMeshProUGUI wordListText;
     public string selectedWord;
     public TextMeshProUGUI selectedWordDisplay;
@@ -22,6 +22,13 @@ public class GameManager : MonoBehaviour
     int themeSelect = 1;
     public Image background;
     public bool isDragging;
+    public AudioSource correctSound;
+    public AudioSource wrongSound;
+    public Image diffButton1;
+    public Image diffButton2;
+    public Image diffButton3;
+    public AudioSource themeSound;
+    public TextMeshProUGUI themeText;
     public List<Color> selectedColors = new List<Color>();
     public int correctGuesses = 0;
     public Animator nextThemeButton;
@@ -74,7 +81,8 @@ public class GameManager : MonoBehaviour
     {
         if (currentRound.Contains(selectedWord.ToLower()))
         {
-            print("y");
+            currentRound.Remove(selectedWord.ToLower());
+            correctSound.PlayDelayed(0.25f);
             
             return true;
 
@@ -82,7 +90,7 @@ public class GameManager : MonoBehaviour
         else
         {
 
-            print("n");
+            wrongSound.Play();
             return false;
         }
 
@@ -108,15 +116,19 @@ public class GameManager : MonoBehaviour
         if(themeSelect== 0)
         {
             background.sprite = picnicBG;
+            themeText.text = "Picnic";
 
         } else if(themeSelect== 1)
         {
             background.sprite = cityBG;
+            themeText.text = "City";
         } else
         {
             background.sprite = gamesBG;
+            themeText.text = "Games";
         }
-
+        themeSound.Play();
+       
         int numberOfWordsToPick = difficulty + 2;
 
         // Shuffle the original list
@@ -141,18 +153,27 @@ public class GameManager : MonoBehaviour
                 gridGen.cellSize = 145;
                 gridGen.fontSize = 60;
                 gridGen.size = 90;
+                diffButton1.color = new Color(0.75f, 1, 0.75f);
+                diffButton2.color = new Color(255, 255, 255);
+                diffButton3.color = new Color(255, 255, 255);
                 break;
             case 2:
                 gridGen.gridSize = 7;
                 gridGen.cellSize = 95;
                 gridGen.fontSize = 50;
                 gridGen.size = 68;
+                diffButton1.color = new Color(255, 255, 255);
+                diffButton2.color = new Color(0.75f,1,0.75f);
+                diffButton3.color = new Color(255, 255, 255);
                 break;
             case 3:
                 gridGen.gridSize = 8;
                 gridGen.cellSize = 85;
                 gridGen.fontSize = 50;
                 gridGen.size = 53;
+                diffButton1.color = new Color(255, 255, 255);
+                diffButton2.color = new Color(255, 255, 255);
+                diffButton3.color = new Color(0.75f, 1, 0.75f);
                 break;
 
         }
