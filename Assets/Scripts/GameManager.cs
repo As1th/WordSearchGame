@@ -166,8 +166,10 @@ public class GameManager : MonoBehaviour
 
         foreach (string word in currentRound)
         {
-            wordListText.text += word.ToUpper() + ", ";
+            wordListText.text += (word.ToUpper() + ", ");
+            
 
         }
+        wordListText.text = wordListText.text.Remove(wordListText.text.Length - 2);
     }
 }
